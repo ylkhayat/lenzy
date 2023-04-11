@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "allowJs": true
+  },
+  "include": ["src/**/*", "src/PagesIndexer.ts"],
+  "exclude": ["node_modules", "dist"]
+}
