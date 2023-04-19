@@ -19,20 +19,102 @@ or
 yarn add --dev lenzy
 ```
 
-🚀 Quick Start
-To use `Lenzy` in your project, you can import the Provider component from the package:
+# 🤖 CLI
+
+`Lenzy` also provides a command-line tool that allows you to search for and navigate to your JSX components. Optimally it works best for NextJS projects and all you have to do is pass the directory of your `pages` folder. To use the CLI, simply run:
+
+```sh
+yarn lenzy compute-index <pages-dir> <pages-catalog-output> <fuse-index-output>
+```
+
+This will compute the index of your JSX components tree of the provided `pages-dir` and save it in the location you provided in `pages-catalog-output` and `fuse-index-output`.
+
+## Example
+
+Assuming your project is structured as follows:
+
+```lua
+├── .next/
+├── components/
+│   ├── About/
+│   │   ├── Header.js
+│   │   └── AboutPage.js
+│   ├── development-tool/
+│   │   └── QuickAccess/
+│   │       └── QuickAccess.js
+├── pages/
+│   ├── _app.js
+│   ├── _document.js
+│   ├── index.js
+│   ├── about.js
+│   ├── blog/
+│   │   ├── index.js
+│   │   ├── [slug].js
+│   │   └── posts.js
+│   └── contact.js
+├── .eslintrc
+├── .gitignore
+├── next.config.js
+├── package.json
+├── README.md
+└── yarn.lock
+```
+
+You have to run this command in the root path
+
+```zsh
+yarn lenzy compute-index ./pages ./components/development-tools/QuickAccess/pages-catalog.json ./components/development-tools/QuickAccess/fuse-index.json
+```
+
+The following JSONs will be created
+
+### `./components/development-tools/QuickAccess/pages-catalog.json`
+
+This is the whole list of all components from your pages
+
+```json
+[
+  {
+    "pageUrl": "/about",
+    "componentPath": "./components/About/AboutPage.js",
+    "component": "AboutPage",
+    "parentPath": "src/pages/about.js",
+    "parents": []
+  },
+  {
+    "pageUrl": "/about",
+    "componentPath": "./components/About/Header.js",
+    "component": "Header",
+    "parentPath": "./components/About/AboutPage.js",
+    "parents": ["AboutPage"]
+  }
+]
+```
+
+### `./components/development-tools/QuickAccess/fuse-index.json`
+
+```json
+{
+  // some indexing stuff that we don't want to get involved in 🥲
+}
+```
+
+# 📖 API
+
+Lenzy exports a single component, `Provider`, which is a search bar that allows you to quickly find and navigate to your JSX components.
 
 ```jsx
 import { Provider } from "lenzy";
+import PAGES_DICT from "./pages-catalog.json";
+import FUSE_INDEX from "./fuse-index.json";
 
-function App() {
+function QuickAccess() {
   return (
     <div>
-      <h1>My React App</h1>
-      <Provider>
+      <h1>Quick Access Component</h1>
+      <Provider pagesDictionary={PAGES_DICT} fuseIndex={FUSE_INDEX}>
         {({ results, value, onChange }) => <>{/* your thang 🌃 */}</>}
       </Provider>
-      {/* rest of your app */}
     </div>
   );
 }
@@ -40,19 +122,7 @@ function App() {
 
 This will add the `Provider` component to your app, allowing you to have access to the `value` of the search and the `onChange` which is a search triggerer and finally the `results` which is mainly everything related to the `value` you provided.
 
-# 📖 API
-
-Lenzy exports a single component, `Provider`, which is a search bar that allows you to quickly find and navigate to your JSX components.
-
-# 🤖 CLI
-
-`Lenzy` also provides a command-line tool that allows you to search for and navigate to your JSX components. To use the CLI, simply run:
-
-```sh
-yarn lenzy compute-index <pages-dir> <pages-dictionary-output> <fuse-index-output>
-```
-
-This will compute the index of your JSX components tree of the provided `pages-dir` and save it in the location you provided in `pages-dictionary-output` and `fuse-index-output`.
+`results` is a list of matches related to the provided `value` and you can interpret that one item from the list will follow the object provided earlier in `pages-catalog.json`
 
 # 📜 License
 
