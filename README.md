@@ -88,6 +88,7 @@ This is the whole list of all components from your pages
     "parentPath": "./components/About/AboutPage.js",
     "parents": ["AboutPage"]
   }
+  // further similar records...
 ]
 ```
 
@@ -108,16 +109,24 @@ import { Provider } from "lenzy";
 import PAGES_DICT from "./pages-catalog.json";
 import FUSE_INDEX from "./fuse-index.json";
 
-function QuickAccess() {
-  return (
-    <div>
-      <h1>Quick Access Component</h1>
-      <Provider pagesDictionary={PAGES_DICT} fuseIndex={FUSE_INDEX}>
-        {({ results, value, onChange }) => <>{/* your thang 🌃 */}</>}
-      </Provider>
-    </div>
-  );
-}
+const QuickAccess = () => (
+  <Provider pagesDictionary={PAGES_DICT} fuseIndex={FUSE_INDEX}>
+    {({ results, value, onChange }) => (
+      <>
+        <h1>Quick Access Component</h1>
+        {/* your thang 🌃 */}
+        <input value={value} onChange={(ev) => event.target.value} />
+        <ul>
+          {results.map((result) => (
+            <li onClick={() => router.push(result.pageUrl)}>
+              {result.parents.join("/")} - {result.component}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </Provider>
+);
 ```
 
 This will add the `Provider` component to your app, allowing you to have access to the `value` of the search and the `onChange` which is a search triggerer and finally the `results` which is mainly everything related to the `value` you provided.
