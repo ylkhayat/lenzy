@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc"
   },
-  "repository": "git@github.com:yousseftarekkh/lenzy.git",
+  "repository": "git@github.com:ylkhayat/lenzy.git",
   "author": "Youssef Elkhayat <yousseftarek@live.com>",
   "license": "MIT",
   "peerDependencies": {
