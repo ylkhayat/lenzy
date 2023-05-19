@@ -41,7 +41,7 @@ export type ProviderProps = {
    * Fuse options passed to the Fuse constructor
    * @see https://fusejs.io/api/options.html
    */
-  fuseOptions?: Fuse.FuseIndexOptions<unknown> | undefined;
+  fuseOptions?: Fuse.IFuseOptions<unknown> | undefined;
 };
 
 export const Provider = ({
@@ -52,7 +52,7 @@ export const Provider = ({
   fuseOptions,
 }: ProviderProps) => {
   const [fuse] = useState(() => {
-    const parsedFuseIndex = Fuse.parseIndex(fuseIndex, fuseOptions);
+    const parsedFuseIndex = Fuse.parseIndex(fuseIndex);
     return new Fuse(
       pagesDictionary,
       { ...fuseOptions, keys: [["parent", "component"]] },
