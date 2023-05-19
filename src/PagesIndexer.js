@@ -3,7 +3,6 @@ const path = require("path");
 
 const Fuse = require("fuse.js");
 const parser = require("@babel/parser");
-const { exit } = require("process");
 const traverse = require("@babel/traverse").default;
 
 const PAGES_DIR = path.join(process.cwd(), process.argv[3]);

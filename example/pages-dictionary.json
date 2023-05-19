@@ -1,0 +1,23 @@
+[
+  {
+    "pageUrl": "/page",
+    "componentPath": "example/components/ComponentA/ComponentA.tsx",
+    "component": "ComponentA",
+    "parentPath": "example/pages/page.tsx",
+    "parents": []
+  },
+  {
+    "pageUrl": "/page",
+    "componentPath": "example/components/ComponentA/ComponentA1.tsx",
+    "component": "ComponentA1",
+    "parentPath": "example/components/ComponentA/ComponentA.tsx",
+    "parents": ["ComponentA"]
+  },
+  {
+    "pageUrl": "/page",
+    "componentPath": "example/components/ComponentB.tsx",
+    "component": "ComponentB",
+    "parentPath": "example/pages/page.tsx",
+    "parents": []
+  }
+]

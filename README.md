@@ -133,9 +133,17 @@ This will add the `Provider` component to your app, allowing you to have access 
 
 `results` is a list of matches related to the provided `value` and you can interpret that one item from the list will follow the object provided earlier in `pages-catalog.json`
 
+## Local Example
+
+Check [example](https://github.com/ylkhayat/lenzy/blob/main/example) folder and feel free to run the project locally through the following command
+
+```sh
+node ./dist/cli.js compute-index ./example/pages example/pages-dictionary.json example/fuse-index.json
+```
+
 # 📜 License
 
-Lenzy is released under the MIT License. See LICENSE for details.
+Lenzy is released under the MIT License.
 
 # 👨‍💻 Contributing
 

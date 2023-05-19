@@ -29,8 +29,19 @@ export type ProviderProps = {
    * Timeout provided to the `debounce` function upon providing input to the `Search Input`
    */
   fetchDebounceTimeout?: 500;
+  /**
+   * 1st generated JSON file from `compute-index` script
+   */
   pagesDictionary: any;
+  /**
+   * 2nd generated JSON file from `compute-index` script
+   */
   fuseIndex: any;
+  /**
+   * Fuse options passed to the Fuse constructor
+   * @see https://fusejs.io/api/options.html
+   */
+  fuseOptions?: Fuse.FuseIndexOptions<unknown> | undefined;
 };
 
 export const Provider = ({
@@ -38,12 +49,13 @@ export const Provider = ({
   fetchDebounceTimeout = 500,
   pagesDictionary,
   fuseIndex,
+  fuseOptions,
 }: ProviderProps) => {
   const [fuse] = useState(() => {
-    const parsedFuseIndex = Fuse.parseIndex(fuseIndex);
+    const parsedFuseIndex = Fuse.parseIndex(fuseIndex, fuseOptions);
     return new Fuse(
       pagesDictionary,
-      { keys: [["parent", "component"]] },
+      { ...fuseOptions, keys: [["parent", "component"]] },
       parsedFuseIndex,
     );
   });

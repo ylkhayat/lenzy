@@ -2,8 +2,6 @@
 import yargs from "yargs";
 import { spawn } from "cross-spawn";
 
-// Import the `lenzy` package using `require`
-
 yargs.command(
   "compute-index <dir> <indexPath> <parsedFusePath>",
   "Run the pages indexer",
