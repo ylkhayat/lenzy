@@ -3,7 +3,7 @@ import yargs from "yargs";
 import { spawn } from "cross-spawn";
 
 yargs.command(
-  "compute-index <dir> <indexPath> <parsedFusePath>",
+  "compute-index <dir> <indexPath> <parsedFusePath> <generateAbsolutePaths>",
   "Run the pages indexer",
   (yargs) => {
     yargs.positional("dir", {
@@ -21,9 +21,14 @@ yargs.command(
         "The path for the file to be created which contains a fuse index to ease the search",
       type: "string",
     });
+    yargs.positional("generateAbsolutePaths", {
+      describe:
+        "Whether to generate absolute paths for the pages or not. Defaults to false",
+      type: "boolean",
+    });
   },
   (argv) => {
-    const { dir, indexPath, parsedFusePath } = argv;
+    const { dir, indexPath, parsedFusePath, generateAbsolutePaths } = argv;
     const command = "yarn";
     const args: string[] = [
       "node",
@@ -31,6 +36,7 @@ yargs.command(
       dir as string,
       indexPath as string,
       parsedFusePath as string,
+      (generateAbsolutePaths ?? false) as boolean,
     ];
     const result = spawn(command, args, { stdio: "inherit" });
     result.on("close", (code) => {

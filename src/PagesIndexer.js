@@ -8,7 +8,7 @@ const traverse = require("@babel/traverse").default;
 const PAGES_DIR = path.join(process.cwd(), process.argv[3]);
 const INDEX_PATH_OUTPUT = path.join(process.cwd(), process.argv[4]);
 const PARSED_FUSE_PATH_OUTPUT = path.join(process.cwd(), process.argv[5]);
-
+const GENERATE_ABSOLUTE_PATHS = JSON.parse(process.argv[6] ?? "false");
 console.log(
   "Here's some logs to know the parameters you passed to the script! 🎬",
 );
@@ -39,6 +39,7 @@ const relativeToAbsolutePath = (rootPath, filePath) => {
     }
   }
   if (fs.existsSync(finalPath)) {
+    if (GENERATE_ABSOLUTE_PATHS) return finalPath;
     return path.relative(process.cwd(), finalPath);
   }
   return null;

@@ -24,7 +24,7 @@ yarn add --dev lenzy
 `Lenzy` also provides a command-line tool that allows you to search for and navigate to your JSX components. Optimally it works best for NextJS projects and all you have to do is pass the directory of your `pages` folder. To use the CLI, simply run:
 
 ```sh
-yarn lenzy compute-index <pages-dir> <pages-catalog-output> <fuse-index-output>
+yarn lenzy compute-index <pages-dir> <pages-catalog-output> <fuse-index-output> <generate-absolute-paths>
 ```
 
 This will compute the index of your JSX components tree of the provided `pages-dir` and save it in the location you provided in `pages-catalog-output` and `fuse-index-output`.
@@ -63,14 +63,14 @@ Assuming your project is structured as follows:
 You have to run this command in the root path
 
 ```zsh
-yarn lenzy compute-index ./pages ./components/development-tools/QuickAccess/pages-catalog.json ./components/development-tools/QuickAccess/fuse-index.json
+yarn lenzy compute-index ./pages ./components/development-tools/QuickAccess/pages-catalog.json ./components/development-tools/QuickAccess/fuse-index.json true
 ```
 
 The following JSONs will be created
 
 ### `./components/development-tools/QuickAccess/pages-catalog.json`
 
-This is the whole list of all components from your pages
+This is the whole list of all components from your pages, keep in mind the paths generated are relative since `generateAbsolutePaths` is `false` by default.
 
 ```json
 [
@@ -86,6 +86,28 @@ This is the whole list of all components from your pages
     "componentPath": "./components/About/Header.js",
     "component": "Header",
     "parentPath": "./components/About/AboutPage.js",
+    "parents": ["AboutPage"]
+  }
+  // further similar records...
+]
+```
+
+Or if you provide the last `generateAbsolutePaths` as `true`, you will get the following
+
+```json
+[
+  {
+    "pageUrl": "/about",
+    "componentPath": "/user/dev/project/components/About/AboutPage.js",
+    "component": "AboutPage",
+    "parentPath": "src/pages/about.js",
+    "parents": []
+  },
+  {
+    "pageUrl": "/about",
+    "componentPath": "/user/dev/project/components/About/Header.js",
+    "component": "Header",
+    "parentPath": "/user/dev/project/components/About/AboutPage.js",
     "parents": ["AboutPage"]
   }
   // further similar records...
@@ -138,7 +160,7 @@ This will add the `Provider` component to your app, allowing you to have access 
 Check [example](https://github.com/ylkhayat/lenzy/blob/main/example) folder and feel free to run the project locally through the following command
 
 ```sh
-node ./dist/cli.js compute-index ./example/pages example/pages-dictionary.json example/fuse-index.json
+node ./dist/cli.js compute-index ./example/pages example/pages-dictionary.json example/fuse-index.json true
 ```
 
 # 📜 License
