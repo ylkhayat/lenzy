@@ -76,14 +76,14 @@ This is the whole list of all components from your pages, keep in mind the paths
 [
   {
     "pageUrl": "/about",
-    "componentPath": "./components/About/AboutPage.js",
+    "path": "./components/About/AboutPage.js",
     "component": "AboutPage",
     "parentPath": "src/pages/about.js",
     "parents": []
   },
   {
     "pageUrl": "/about",
-    "componentPath": "./components/About/Header.js",
+    "path": "./components/About/Header.js",
     "component": "Header",
     "parentPath": "./components/About/AboutPage.js",
     "parents": ["AboutPage"]
@@ -98,14 +98,14 @@ Or if you provide the last `generateAbsolutePaths` as `true`, you will get the f
 [
   {
     "pageUrl": "/about",
-    "componentPath": "/user/dev/project/components/About/AboutPage.js",
+    "path": "/user/dev/project/components/About/AboutPage.js",
     "component": "AboutPage",
     "parentPath": "src/pages/about.js",
     "parents": []
   },
   {
     "pageUrl": "/about",
-    "componentPath": "/user/dev/project/components/About/Header.js",
+    "path": "/user/dev/project/components/About/Header.js",
     "component": "Header",
     "parentPath": "/user/dev/project/components/About/AboutPage.js",
     "parents": ["AboutPage"]

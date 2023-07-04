@@ -109,19 +109,24 @@ const getAllComponents = (rootPath, filePath, pageUrl, parents) => {
             modifiedFilePath,
             treeComponent.path,
             pageUrl,
-            [...parents, componentName],
+            [
+              ...parents,
+              {
+                path: relativeToAbsolutePath(
+                  modifiedFilePath,
+                  treeComponent.path,
+                ),
+                component: componentName,
+              },
+            ],
           );
           const { imports: _, path: __, ...rest } = treeComponent;
           const modifiedPageUrl = pageUrl.replace(/\/index/, "");
           allComponents.push({
             ...rest,
             pageUrl: modifiedPageUrl,
-            componentPath: relativeToAbsolutePath(
-              modifiedFilePath,
-              treeComponent.path,
-            ),
+            path: relativeToAbsolutePath(modifiedFilePath, treeComponent.path),
             component: componentName,
-            parentPath: modifiedFilePath,
             parents,
           });
           allComponents.push(...subtree);

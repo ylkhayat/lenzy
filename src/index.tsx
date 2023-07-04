@@ -2,10 +2,14 @@ import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 
+export type Entry = {
+  component: string;
+  path: string;
+};
+
 export type ResultEntry = {
-  item: {
-    component: string;
-    parents: string[];
+  item: Entry & {
+    parents: Entry[];
     pageUrl: string;
   };
 };
@@ -55,7 +59,7 @@ export const Provider = ({
     const parsedFuseIndex = Fuse.parseIndex(fuseIndex);
     return new Fuse(
       pagesDictionary,
-      { ...fuseOptions, keys: [["parent", "component"]] },
+      { keys: [["component"]], ...fuseOptions },
       parsedFuseIndex,
     );
   });
