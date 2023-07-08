@@ -1,12 +1,12 @@
 [
   {
-    "pageUrl": "/page",
+    "route": "/page",
     "path": "example/components/ComponentA/ComponentA.tsx",
     "component": "ComponentA",
     "parents": []
   },
   {
-    "pageUrl": "/page",
+    "route": "/page",
     "path": "example/components/ComponentA/ComponentA1.tsx",
     "component": "ComponentA1",
     "parents": [
@@ -17,7 +17,7 @@
     ]
   },
   {
-    "pageUrl": "/page",
+    "route": "/page",
     "path": "example/components/ComponentB.tsx",
     "component": "ComponentB",
     "parents": []

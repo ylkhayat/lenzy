@@ -1,7 +1,7 @@
 {
   "name": "lenzy",
-  "version": "0.2.5",
-  "description": "Quick access for your JSX components as a productivity tools, allowing to analyze your website pages, allocate your components within them and handles the appropriate navigation.",
+  "version": "0.2.6",
+  "description": "Productivity tool for your JSX components hierarchy, allowing to analyze your website pages, allocate nested components within them and generates a JSON for the analysis.",
   "author": "ylkhayat",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

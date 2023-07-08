@@ -69,7 +69,7 @@ const getAllPages = (dir) => {
   return pages;
 };
 
-const getAllComponents = (rootPath, filePath, pageUrl, parents) => {
+const getAllComponents = (rootPath, filePath, route, parents) => {
   const allComponents = [];
   const referencedComponents = [];
   const modifiedFilePath = relativeToAbsolutePath(rootPath, filePath);
@@ -108,7 +108,7 @@ const getAllComponents = (rootPath, filePath, pageUrl, parents) => {
           const subtree = getAllComponents(
             modifiedFilePath,
             treeComponent.path,
-            pageUrl,
+            route,
             [
               ...parents,
               {
@@ -121,10 +121,10 @@ const getAllComponents = (rootPath, filePath, pageUrl, parents) => {
             ],
           );
           const { imports: _, path: __, ...rest } = treeComponent;
-          const modifiedPageUrl = pageUrl.replace(/\/index/, "");
+          const modifiedRoute = route.replace(/\/index/, "");
           allComponents.push({
             ...rest,
-            pageUrl: modifiedPageUrl,
+            route: modifiedRoute,
             path: relativeToAbsolutePath(modifiedFilePath, treeComponent.path),
             component: componentName,
             parents,
@@ -141,8 +141,8 @@ const analyzePages = () => {
   const pages = getAllPages(PAGES_DIR);
   const treeComponents = [];
   for (const page of pages) {
-    const pageUrl = `/${page.path}`;
-    const treeComponent = getAllComponents(PAGES_DIR, pageUrl, pageUrl, []);
+    const route = `/${page.path}`;
+    const treeComponent = getAllComponents(PAGES_DIR, route, route, []);
     treeComponents.push(...treeComponent);
   }
   return treeComponents;

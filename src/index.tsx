@@ -10,7 +10,7 @@ export type Entry = {
 export type ResultEntry = {
   item: Entry & {
     parents: Entry[];
-    pageUrl: string;
+    route: string;
   };
 };
 

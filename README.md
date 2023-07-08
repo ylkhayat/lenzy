@@ -3,7 +3,8 @@
 [![NPM](https://img.shields.io/npm/v/lenzy.svg)](https://www.npmjs.com/package/lenzy)
 [![downloads](https://img.shields.io/npm/dm/lenzy.svg)](https://www.npmjs.com/package/lenzy)
 
-Lenzy is a TypeScript package that helps you quickly access your JSX components in your React project. It provides a simple command-line tool which is responsible to generate the indexes used for the search engine to do its thing 🌠 . Providing a `Provider` component that acts as a wrapper to whatever you want to do with the results, optimally allowing you to search for and navigate to your JSX components. This package uses [fuse.js](https://fusejs.io/) to handle the search over large amount of data 🎉!
+Lenzy is a TypeScript package that helps you extract your nested JSX components within your React project into a JSON file showcasing the imports and hierarchy your hierarchical components are following.
+It provides a simple command-line tool which is responsible to generate the indexes used for the search engine to do its thing 🌠 . Providing a `Provider` component that acts as a wrapper to whatever you want to do with the results, optimally allowing you to search for and navigate to your JSX components. This package uses [fuse.js](https://fusejs.io/) to handle the search over large amount of data 🎉!
 
 ## 📦 Installation
 
@@ -21,7 +22,16 @@ yarn add --dev lenzy
 
 # 🤖 CLI
 
-`Lenzy` also provides a command-line tool that allows you to search for and navigate to your JSX components. Optimally it works best for NextJS projects and all you have to do is pass the directory of your `pages` folder. To use the CLI, simply run:
+`Lenzy` provides a command-line tool that allows you to extract your JSX components imports and declaration to generate an overview of your rendering tree in the form of a JSON.
+
+### Arguments
+
+- `<pages-dir>`: The directory of your pages folder that you want to scan and analyze.
+- `<pages-catalog-output>`: The path to which the cli would save the pages catalog json.
+- `<fuse-index-output>`: The path to which the cli would save the fuse index json.
+- `<generate-absolute-paths>`: A boolean that allows you to choose between absolute or relative paths.
+
+To use the CLI, simply run:
 
 ```sh
 yarn lenzy compute-index <pages-dir> <pages-catalog-output> <fuse-index-output> <generate-absolute-paths>
@@ -63,7 +73,7 @@ Assuming your project is structured as follows:
 You have to run this command in the root path
 
 ```zsh
-yarn lenzy compute-index ./pages ./components/development-tools/QuickAccess/pages-catalog.json ./components/development-tools/QuickAccess/fuse-index.json true
+yarn lenzy compute-index ./pages ./components/development-tools/QuickAccess/pages-catalog.json ./components/development-tools/QuickAccess/fuse-index.json false
 ```
 
 The following JSONs will be created
@@ -75,40 +85,46 @@ This is the whole list of all components from your pages, keep in mind the paths
 ```json
 [
   {
-    "pageUrl": "/about",
+    "route": "/about",
     "path": "./components/About/AboutPage.js",
     "component": "AboutPage",
-    "parentPath": "src/pages/about.js",
     "parents": []
   },
   {
-    "pageUrl": "/about",
+    "route": "/about",
     "path": "./components/About/Header.js",
     "component": "Header",
-    "parentPath": "./components/About/AboutPage.js",
-    "parents": ["AboutPage"]
+    "parents": [
+      {
+        "component": "AboutPage",
+        "path": "./components/About/AboutPage.js"
+      }
+    ]
   }
   // further similar records...
 ]
 ```
 
-Or if you provide the last `generateAbsolutePaths` as `true`, you will get the following
+Or if you provide the last `<generate-absolute-paths>` `true`, you will get the following
 
 ```json
 [
   {
-    "pageUrl": "/about",
+    "route": "/about",
     "path": "/user/dev/project/components/About/AboutPage.js",
     "component": "AboutPage",
-    "parentPath": "src/pages/about.js",
     "parents": []
   },
   {
-    "pageUrl": "/about",
+    "route": "/about",
     "path": "/user/dev/project/components/About/Header.js",
     "component": "Header",
-    "parentPath": "/user/dev/project/components/About/AboutPage.js",
-    "parents": ["AboutPage"]
+    "parents": [
+      {
+        "component": "AboutPage",
+        "path": "/user/dev/project/components/About/AboutPage.js"
+      }
+    ]
   }
   // further similar records...
 ]
@@ -126,6 +142,13 @@ Or if you provide the last `generateAbsolutePaths` as `true`, you will get the f
 
 Lenzy exports a single component, `Provider`, which is a search bar that allows you to quickly find and navigate to your JSX components.
 
+### Props
+
+- `pagesDictionary`: The path to the pages catalog json file.
+- `fuseIndex`: The path to the fuse index json file.
+- `fetchDebounceTimeout` (optional): The debounce timeout for the search engine, defaults to `500`.
+- `fuseOptions` other configurations that you can find in the [fuse.js](https://fusejs.io/api/options.html) documentation.
+
 ```jsx
 import { Provider } from "lenzy";
 import PAGES_DICT from "./pages-catalog.json";
@@ -140,7 +163,7 @@ const QuickAccess = () => (
         <input value={value} onChange={(ev) => event.target.value} />
         <ul>
           {results.map((result) => (
-            <li onClick={() => router.push(result.pageUrl)}>
+            <li onClick={() => router.push(result.route)}>
               {result.parents.join("/")} - {result.component}
             </li>
           ))}
